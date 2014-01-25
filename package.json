@@ -1,0 +1,24 @@
+{
+  "name": "bible.js",
+  "version": "0.0.0",
+  "description": "The Bible as a NPM module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/IonicaBizau/bible.js.git"
+  },
+  "keywords": [
+    "bible",
+    "npm",
+    "nodejs"
+  ],
+  "author": "Ionică Bizău <bizauionica@yahoo.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/bible.js/issues"
+  },
+  "homepage": "https://github.com/IonicaBizau/bible.js"
+}
