@@ -211,16 +211,24 @@ var Bible = function (options) {
         if (!parsed) { return callback ("Cannot parse the input."); }
 
         // serach in JSON files
-        if (options.jsonFiles) {
-            debugger;
+        if (self._json) {
+
+            // get the book id
             var bookId = getBookId.call (self, parsed.book);
+
+            // validate it
             if (!bookId) { return callback ("Book not found"); }
+
+            // send the response
             callback (null, findQuery (self._verses[self._language], {
                 type: "SCR"
               , book: bookId
               , chapter: parsed.chapter
               , verse: parsed.verses
             }));
+
+            // return the instance
+            return self;
         }
     }
 };
