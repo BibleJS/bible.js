@@ -38,6 +38,7 @@ function parseReference (reference) {
     var chapterAndVerses = reference.substring(reference.lastIndexOf(" ") + 1)
       , splits = chapterAndVerses.split(":")
       ;
+
     // compute
     switch (splits.length) {
         // chapter and verses provided
@@ -82,6 +83,89 @@ function parseReference (reference) {
     return parsed;
 }
 
+/*
+ *  This function searches returns the objects from an array
+ *  that contains objects
+ *
+ *  {
+ *      site_id: "61",
+ *      name: "18"
+ *  }
+ *
+ * */
+function findQuery (array, query) {
+
+    // get the collection
+    var col = array
+      , res = []
+      ;
+
+    // array empty or not valid
+    if (!col || !col.length || col.constructor !== Array) {
+        return res;
+    }
+
+    // start dance
+    itemsToFindForLoop:
+
+    // each item
+    for (var i = 0; i < col.length; ++i) {
+
+        // get current item
+        var cItem = col[i];
+
+        // each filter from query
+        for (var f in query) {
+
+            // get filter value
+            var fValue = query[f];
+
+            if (typeof cItem[f] === "string" && typeof fValue === "string") {
+                // a filter doesn't match to the query
+                if (cItem[f] !== fValue) continue itemsToFindForLoop;
+            } else if (typeof cItem[f] === "string" &&  fValue && fValue.constructor === Array) {
+                // a filter doesn't match to the query
+                if (fValue.indexOf(cItem[f]) === -1) continue itemsToFindForLoop;
+            }
+        }
+
+        // item matches to the query, push it
+        res.push(cItem);
+    }
+
+    // return array
+    return res;
+}
+
+/**
+ * private: getBookId
+ *  Returns the book id providing the book name as the first parameter.
+ *
+ */
+function getBookId (bookName) {
+
+    // get self
+    var self = this;
+
+    // validate books
+    if (!self._books || !self._books.constructor !== Array) {
+        return null;
+    }
+
+    // search for book name
+    var book = findQuery (self._books, {
+        book: bookName
+    })[0];
+
+    // not found
+    if (!book || !book.id) {
+        return null;
+    }
+
+    // return book id
+    return book.id;
+}
+
 var Bible = function (options) {
 
     // get the instance
@@ -121,9 +205,18 @@ var Bible = function (options) {
     self.get = function (reference, callback) {
 
         var parsed = parseReference (reference);
+        if (!parsed) { return callback ("Cannot parse the input."); }
 
         // serach in JSON files
         if (options.jsonFiles) {
+            var bookId = getBookId.call (self, parsed.book);
+            if (!bookId) { return callback ("Book not found"); }
+            return findQuery (self._verses, {
+                type: "SCR"
+              , book: bookId
+              , chapter: parsed.chapter
+              , verse: parsed.verses
+            });
         }
     }
 };
