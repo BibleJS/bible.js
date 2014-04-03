@@ -1,5 +1,5 @@
 *.swp
 *~
 *.log
-*/node_modules
+*node_modules
 bibles
