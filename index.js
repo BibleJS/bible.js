@@ -2,6 +2,65 @@ const LANGUAGES = ["RO"];
 const BOOKS_FILE_NAME = "books.json";
 const VERSES_FILE_NAME = "verses.json";
 
+function parseReference (reference) {
+
+    var parsed = {
+        book: null
+      , chapter: null
+      , verses: []
+    };
+
+    // TODO regexp
+    parsed.book = reference.substring(0, reference.lastIndexOf(" "));
+
+    // get chapter and verses
+    var chapterAndVerses = reference.substring(reference.lastIndexOf(" ") + 1)
+      , splits = chapterAndVerses.split(":")
+      ;
+    // compute
+    switch (splits.length) {
+        // chapter and verses provided
+        case 2:
+
+            // set the chapter
+            parsed.chapter = splits[0];
+
+            // get verses
+            var verses = splits[1].split(/\-|\,/)
+
+                // parse first and last verse
+              , first = parseInt(verses[0])
+              , last = parseInt(verses[1])
+              ;
+
+            // e.g. 1-10
+            if (splits[1].indexOf("-") !== -1) {
+
+                // push all verses
+                for (var i = first; i <= last; ++i) {
+                    parsed.verses.push(i.toString());
+                }
+            } else {
+               parsed.verses = verses;
+            }
+            break;
+
+        // chapter only
+        case 0:
+
+            // set the chapter
+            parsed.chapter = splits[0];
+
+            // take all verses
+            parsed.verses = ["ALL"];
+            break;
+        default:
+            return null;
+    }
+
+    return parsed;
+}
+
 var Bible = function (options) {
 
     // get the instance
@@ -40,7 +99,7 @@ var Bible = function (options) {
      */
     self.get = function (reference, callback) {
 
-        console.log(reference)
+        var parsed = parseReference (reference);
 
         // serach in JSON files
         if (options.jsonFiles) {
