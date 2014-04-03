@@ -4,6 +4,9 @@ var Bible = new (require ("../index"))({
 });
 
 // get verse
-Bible.get("Geneza 1:1", function (err, data) {
-    console.log (err || data);
+Bible.get("Psalmii 1:1-6", function (err, data) {
+    if (data && data.length) {
+        for (var i in data)
+        console.log(data[i].verse + " | " + data[i].text);
+    }
 });
