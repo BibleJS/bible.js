@@ -48,3 +48,5 @@ var Bible = function (options) {
         }
     }
 };
+
+module.exports = Bible;
