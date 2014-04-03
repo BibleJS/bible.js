@@ -1,3 +1,30 @@
+/**
+ *  BibleJS
+ *  Access the Bible contents from JavaScript side.
+ *
+ *  The MIT License (MIT)
+ *
+ *  Copyright (c) 2014 Ionică Bizău
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy of
+ *  this software and associated documentation files (the "Software"), to deal in
+ *  the Software without restriction, including without limitation the rights to
+ *  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ *  the Software, and to permit persons to whom the Software is furnished to do so,
+ *  subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ *  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ *  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ *  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * */
+
 const LANGUAGES = ["RO"];
 const BOOKS_FILE_NAME = "books.json";
 const VERSES_FILE_NAME = "verses.json";
@@ -166,6 +193,7 @@ function getBookId (bookName) {
     return book.id;
 }
 
+// constructor
 var Bible = function (options) {
 
     // get the instance
@@ -185,9 +213,15 @@ var Bible = function (options) {
     if (options.dbConfig && !options.jsonFiles) {
         throw new Error ("Not yet implemented");
     } else {
+
+        // use json files
         self._json = options.jsonFiles = true;
+
+        // create the books and verses objects
         self._books = {};
         self._verses = {};
+
+        // require the json files
         self._books[options.language]  = require ("./bibles/" + options.language + "/" + BOOKS_FILE_NAME);
         self._verses[options.language] = require ("./bibles/" + options.language + "/" + VERSES_FILE_NAME);
     }
@@ -233,4 +267,5 @@ var Bible = function (options) {
     }
 };
 
+// export it
 module.exports = Bible;
