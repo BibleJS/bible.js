@@ -124,7 +124,6 @@ var Bible = function (options) {
 
         // serach in JSON files
         if (options.jsonFiles) {
-
         }
     }
 };
