@@ -1,5 +1,7 @@
 // dependencies
-var Bible = require ("../index");
+var Bible = new (require ("../index"))({
+    language: "RO"
+});
 
 // get verse
 Bible.get("Geneza 1:1", function (err, data) {
