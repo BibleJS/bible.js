@@ -24,6 +24,7 @@ const VERSES_FILE_NAME = "verses.json";
  */
 function parseReference (reference) {
 
+    // this object will be returned
     var parsed = {
         book: null
       , chapter: null
@@ -66,7 +67,7 @@ function parseReference (reference) {
             break;
 
         // chapter only
-        case 0:
+        case 1:
 
             // set the chapter
             parsed.chapter = splits[0];
