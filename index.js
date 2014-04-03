@@ -148,12 +148,12 @@ function getBookId (bookName) {
     var self = this;
 
     // validate books
-    if (!self._books || !self._books.constructor !== Array) {
+    if (!self._books || !self._books[self._language] || self._books[self._language].constructor !== Array) {
         return null;
     }
 
     // search for book name
-    var book = findQuery (self._books, {
+    var book = findQuery (self._books[self._language], {
         book: bookName
     })[0];
 
@@ -177,6 +177,8 @@ var Bible = function (options) {
     // language not found
     if (LANGUAGES.indexOf(options.language) === -1) {
         throw new Error ("Language not found. Choose one of the following languages: " + LANGUAGES.join(", "));
+    } else {
+        self._language = options.language;
     }
 
     // database configuration
@@ -184,7 +186,8 @@ var Bible = function (options) {
         throw new Error ("Not yet implemented");
     } else {
         self._json = options.jsonFiles = true;
-        self._books = self._verses = {};
+        self._books = {};
+        self._verses = {};
         self._books[options.language]  = require ("./bibles/" + options.language + "/" + BOOKS_FILE_NAME);
         self._verses[options.language] = require ("./bibles/" + options.language + "/" + VERSES_FILE_NAME);
     }
@@ -209,14 +212,15 @@ var Bible = function (options) {
 
         // serach in JSON files
         if (options.jsonFiles) {
+            debugger;
             var bookId = getBookId.call (self, parsed.book);
             if (!bookId) { return callback ("Book not found"); }
-            return findQuery (self._verses, {
+            callback (null, findQuery (self._verses[self._language], {
                 type: "SCR"
               , book: bookId
               , chapter: parsed.chapter
               , verse: parsed.verses
-            });
+            }));
         }
     }
 };
