@@ -2,6 +2,26 @@ const LANGUAGES = ["RO"];
 const BOOKS_FILE_NAME = "books.json";
 const VERSES_FILE_NAME = "verses.json";
 
+/**
+ * private: parseReference
+ *  This function parses the provided reference.
+ *
+ *  Arguments
+ *    @reference: string in the following formats
+ *      <book> <chapter>:<verse>
+ *      <book> <chapter>:<firstVerse>-<lastVerse>
+ *      <book> <chapter>:<oneVerse>,<anotherVerse>
+ *      <book> <chapter>
+ *
+ *  Returns
+ *    an object in the following format:
+ *      {
+ *         boook: "<book>"
+ *       , chapter: "<chapter>"
+ *       , verses: ["...", "..."]
+ *      }
+ *
+ */
 function parseReference (reference) {
 
     var parsed = {
