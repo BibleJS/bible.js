@@ -1,6 +1,6 @@
 const LANGUAGES = ["RO"];
 const BOOKS_FILE_NAME = "books.json";
-const VERSE_FILE_NAME = "verses.json";
+const VERSES_FILE_NAME = "verses.json";
 
 var Bible = function (options) {
 
@@ -20,9 +20,9 @@ var Bible = function (options) {
         throw new Error ("Not yet implemented");
     } else {
         self._json = options.jsonFiles = true;
-        self._books = {};
-        self._books[options.language]  = require ("./data/json/" + options.language + "/" + BOOK_FILE_NAME);
-        self._verses[options.language] = require ("./data/json/" + options.language + "/" + VERSE_FILE_NAME);
+        self._books = self._verses = {};
+        self._books[options.language]  = require ("./bibles/" + options.language + "/" + BOOKS_FILE_NAME);
+        self._verses[options.language] = require ("./bibles/" + options.language + "/" + VERSES_FILE_NAME);
     }
 
     /**
