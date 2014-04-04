@@ -1,12 +1,17 @@
-bible.js
+Bible.js
 ========
 
 The Bible as a NPM module.
 
+## Installation
+```sh
+$ npm install bible.js
+```
+
 ## How to use
 ```js
 // dependencies
-var Bible = new (require ("../index"))({
+var Bible = new (require ("bible.js"))({
     language: "EN"
 })
 
