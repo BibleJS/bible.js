@@ -26,7 +26,6 @@
  * */
 
 const LANGUAGES = ["RO", "EN"];
-const BOOKS_FILE_NAME = "books.json";
 const VERSES_FILE_NAME = "verses.json";
 var Request = require ("request");
 
@@ -165,35 +164,6 @@ function findQuery (array, query) {
     return res;
 }
 
-/**
- * private: getBookId
- *  Returns the book id providing the book name as the first parameter.
- *
- */
-function getBookId (bookName) {
-
-    // get self
-    var self = this;
-
-    // validate books
-    if (!self._books || !self._books[self._language] || self._books[self._language].constructor !== Array) {
-        return null;
-    }
-
-    // search for book name
-    var book = findQuery (self._books[self._language], {
-        book: bookName
-    })[0];
-
-    // not found
-    if (!book || !book.id) {
-        return null;
-    }
-
-    // return book id
-    return book.id;
-}
-
 // constructor
 var Bible = function (options) {
 
@@ -218,13 +188,11 @@ var Bible = function (options) {
         // use json files
         self._json = options.jsonFiles = true;
 
-        // create the books and verses objects
-        self._books = {};
+        // create the verse object
         self._verses = {};
 
         try {
             // require the json files
-            self._books[options.language]  = require ("./bibles/" + options.language + "/" + BOOKS_FILE_NAME);
             self._verses[options.language] = require ("./bibles/" + options.language + "/" + VERSES_FILE_NAME);
         } catch (e) {
             self._useRequest = true;
@@ -261,18 +229,11 @@ var Bible = function (options) {
         // serach in JSON files
         if (self._json && !self._useRequest) {
 
-            // get the book id
-            var bookId = getBookId.call (self, parsed.book);
-
-            // validate it
-            if (!bookId) { return callback ("Book not found"); }
-
             // send the response
             callback (null, findQuery (self._verses[self._language], {
-                type: "SCR"
-              , book: bookId
-              , chapter: parsed.chapter
-              , verse: parsed.verses
+                bookname:   parsed.book
+              , chapter:    parsed.chapter
+              , verse:      parsed.verses
             }));
 
             // return the instance
