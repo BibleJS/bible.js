@@ -19,5 +19,13 @@ Bible.get("Psalmii 1:1-6", function (err, data) {
 });
 ```
 
+## Changelog
+
+### `v0.1.1`
+ - use Bible data v0.1.1
+
+### `v0.1.0`
+ - initial release
+
 ## License
 See LICENSE file.

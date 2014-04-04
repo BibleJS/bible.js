@@ -4,7 +4,7 @@ var Bible = new (require ("../index"))({
 });
 
 // get verse
-Bible.get("Psalmii 1:1-6", function (err, data) {
+Bible.get("Maleahi 4:1-4", function (err, data) {
     if (data && data.length) {
         for (var i in data)
         console.log(data[i].verse + " | " + data[i].text);
