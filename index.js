@@ -25,9 +25,10 @@
  *
  * */
 
-const LANGUAGES = ["RO"];
+const LANGUAGES = ["RO", "EN"];
 const BOOKS_FILE_NAME = "books.json";
 const VERSES_FILE_NAME = "verses.json";
+var Request = require ("request");
 
 /**
  * private: parseReference
@@ -221,9 +222,22 @@ var Bible = function (options) {
         self._books = {};
         self._verses = {};
 
-        // require the json files
-        self._books[options.language]  = require ("./bibles/" + options.language + "/" + BOOKS_FILE_NAME);
-        self._verses[options.language] = require ("./bibles/" + options.language + "/" + VERSES_FILE_NAME);
+        try {
+            // require the json files
+            self._books[options.language]  = require ("./bibles/" + options.language + "/" + BOOKS_FILE_NAME);
+            self._verses[options.language] = require ("./bibles/" + options.language + "/" + VERSES_FILE_NAME);
+        } catch (e) {
+            self._useRequest = true;
+            // TODO
+            var providers = {
+                "EN": [
+                    "http://libbible.com/api/query.php?type=verse&br="
+                  , "http://labs.bible.org/api/?type=json&passage="
+                ]
+            };
+            // TODO
+            self._provider = providers[self._language][1];
+        }
     }
 
     /**
@@ -245,7 +259,7 @@ var Bible = function (options) {
         if (!parsed) { return callback ("Cannot parse the input."); }
 
         // serach in JSON files
-        if (self._json) {
+        if (self._json && !self._useRequest) {
 
             // get the book id
             var bookId = getBookId.call (self, parsed.book);
@@ -260,6 +274,28 @@ var Bible = function (options) {
               , chapter: parsed.chapter
               , verse: parsed.verses
             }));
+
+            // return the instance
+            return self;
+        }
+
+        // use request
+        if (self._json && self._useRequest) {
+
+            // run request
+            Request.get({
+                json: true
+              , url: self._provider + reference
+            }, function (err, response, body) {
+
+                // handle error
+                if (err || response.statusCode !== 200) {
+                    return callback (err || response.message);
+                }
+
+                // callback response
+                callback (null, body);
+            });
 
             // return the instance
             return self;
