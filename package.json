@@ -17,7 +17,8 @@
     "nodejs"
   ],
   "dependencies": {
-    "mongodb": "*"
+    "mongodb": "*",
+    "request": "*"
   },
   "author": "Ionică Bizău <bizauionica@yahoo.com>",
   "license": "MIT",
