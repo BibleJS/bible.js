@@ -63,6 +63,9 @@ Psalm 1:1-6
 
 ## Changelog
 
+### `v0.1.4`
+ - Get all verses from a chapter (bug when language is RO).
+
 ### `v0.1.3`
  - Removed `_books` field.
  - Use the new version of [Bible Data](https://github.com/BibleJS/Versions)
