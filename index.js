@@ -101,7 +101,7 @@ function parseReference (reference) {
             parsed.chapter = splits[0];
 
             // take all verses
-            parsed.verses = ["ALL"];
+            parsed.verses = "ALL";
             break;
         default:
             return null;
@@ -229,12 +229,20 @@ var Bible = function (options) {
         // serach in JSON files
         if (self._json && !self._useRequest) {
 
-            // send the response
-            callback (null, findQuery (self._verses[self._language], {
+            // build the query
+            var query = {
                 bookname:   parsed.book
               , chapter:    parsed.chapter
               , verse:      parsed.verses
-            }));
+            };
+
+            // "ALL" is special
+            if (query.verse === "ALL") {
+                delete query.verse;
+            }
+
+            // send the response
+            callback (null, findQuery (self._verses[self._language], query));
 
             // return the instance
             return self;
