@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/IonicaBizau/bible.js.git"
+    "url": "git://github.com/BibleJS/bible.js.git"
   },
   "keywords": [
     "bible",
@@ -20,12 +20,12 @@
     "mongodb": "*",
     "request": "*"
   },
-  "author": "Ionică Bizău <bizauionica@yahoo.com>",
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/IonicaBizau/bible.js/issues"
+    "url": "https://github.com/BibleJS/bible.js/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/bible.js",
+  "homepage": "https://github.com/BibleJS/bible.js",
   "directories": {
     "test": "test"
   },
