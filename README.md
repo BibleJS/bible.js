@@ -63,6 +63,9 @@ Psalm 1:1-6
 
 ## Changelog
 
+### `v0.1.5`
+ - Convert to uppercase the language field
+
 ### `v0.1.4`
  - Get all verses from a chapter (bug when language is RO).
 
