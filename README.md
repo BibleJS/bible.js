@@ -63,6 +63,9 @@ Psalm 1:1-6
 
 ## Changelog
 
+### `v0.1.6`
+ - Updated GitHub urls and email address
+
 ### `v0.1.5`
  - Convert to uppercase the language field
 
