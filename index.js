@@ -173,6 +173,9 @@ var Bible = function (options) {
     // force options to be an object
     options = Object (options);
 
+    // uppercase the language field
+    options.language = String (options.language).toUpperCase();
+
     // language not found
     if (LANGUAGES.indexOf(options.language) === -1) {
         throw new Error ("Language not found. Choose one of the following languages: " + LANGUAGES.join(", "));
