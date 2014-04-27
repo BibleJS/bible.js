@@ -153,6 +153,9 @@ function findQuery (array, query) {
             } else if (typeof cItem[f] === "string" &&  fValue && fValue.constructor === Array) {
                 // a filter doesn't match to the query
                 if (fValue.indexOf(cItem[f]) === -1) continue itemsToFindForLoop;
+            } else if (typeof cItem[f] === "string" &&  fValue && fValue.constructor === RegExp) {
+                // a filter doesn't match to the query
+                if (!fValue.test(cItem[f])) continue itemsToFindForLoop;
             }
         }
 
@@ -268,6 +271,41 @@ var Bible = function (options) {
                 // callback response
                 callback (null, body);
             });
+
+            // return the instance
+            return self;
+        }
+    }
+
+    /**
+     *  This function gets the verses that match to the regular expression provided
+     *
+     *  Arguments
+     *    @reference: a string or regular expression
+     *    @callback: the callback function
+     *
+     */
+    self.search = function (query, callback) {
+
+        // validate
+        if (query && query.constructor === String) {
+            query = new RegExp (query);
+        }
+
+        if (!query || query.constructor !== RegExp) {
+            throw new Error ("query must be a regular expression or a string");
+        }
+
+        // serach in JSON files
+        if (self._json && !self._useRequest) {
+
+            // build the query
+            var query = {
+                text: query
+            };
+
+            // send the response
+            callback (null, findQuery (self._verses[self._language], query));
 
             // return the instance
             return self;
