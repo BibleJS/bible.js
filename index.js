@@ -25,8 +25,11 @@
  *
  * */
 
+// constants
 const LANGUAGES = ["RO", "EN"];
 const VERSES_FILE_NAME = "verses.json";
+
+// dependencies
 var Request = require ("request");
 
 /**
