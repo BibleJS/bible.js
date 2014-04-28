@@ -1,6 +1,6 @@
 {
     "name": "bible.js"
-  , "version": "0.1.6"
+  , "version": "0.1.7"
   , "description": "The Bible as a NPM module."
   , "main": "index.js"
   , "scripts": {
@@ -17,8 +17,7 @@
       , "nodejs"
     ]
   , "dependencies": {
-        "mongodb": "*"
-      , "request": "*"
+        "request": "*"
     }
   , "author": "Ionică Bizău <bizauionica@gmail.com>"
   , "license": "MIT"
