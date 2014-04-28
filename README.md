@@ -8,7 +8,61 @@ The Bible as a NPM module.
 $ npm install bible.js
 ```
 
-## How to use
+## Methods
+
+### Constructor: `new Bible (options)`
+Creates a new `Bible` instance.
+
+#### Arguments
+
+ - `@options` object containing:
+   - `language`: the language (currently the supported languages are Romanian (`"RO"`) and English (`"EN"`)
+
+#### Example
+
+```js
+var Bible = new (require ("bible.js"))({
+    language: "EN"
+})
+```
+
+### `Bible.get (reference, callback)`
+This function gets the verses/chapter represented by `@reference` argument. The `@callback` function is called with an error and an array of verses (objects).
+
+#### Arguments
+  - `@reference`: a string in the following formats:
+    e.g. Genesis 1:1    - returns one verse
+      or Genesis 1:1,2  - returns two verses (1 and 2)
+      or Genesis 1:1-10 - returns the verses 1 - 10
+      or Genesis 1      - returns the whole chapter
+
+  - `@callback`: the callback function
+
+#### Example
+
+```js
+Bible.get("Psalm 1:1-6, function (err, data) {
+    /* do something */
+});
+```
+
+### `Bible.search (query, callback)`
+The method receives a string or a regular expression in the first argument (`@query`). The verses that match the query are fetched.
+**NOTE**: right now only searching in json files is implemented.
+
+#### Arguments
+ - `@query`: string or regular expression
+ - `@callback`: the callback function
+
+#### Example
+
+```js
+Bible.search(/david/i, function (err, verses) {
+   /* do something with the verses that contain "david" */
+});
+```
+
+## Example
 ```js
 // dependencies
 var Bible = new (require ("bible.js"))({
@@ -62,6 +116,10 @@ Psalm 1:1-6
 ```
 
 ## Changelog
+
+### `v0.1.7`
+ - Added `search` method
+ - Removed `mongodb` as dependency
 
 ### `v0.1.6`
  - Updated GitHub urls and email address
