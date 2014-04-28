@@ -1,33 +1,33 @@
 {
-  "name": "bible.js",
-  "version": "0.1.6",
-  "description": "The Bible as a NPM module.",
-  "main": "index.js",
-  "scripts": {
-    "test": "node test/english",
-    "preinstall": "installation/preinstall.sh"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/BibleJS/bible.js.git"
-  },
-  "keywords": [
-    "bible",
-    "npm",
-    "nodejs"
-  ],
-  "dependencies": {
-    "mongodb": "*",
-    "request": "*"
-  },
-  "author": "Ionică Bizău <bizauionica@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/BibleJS/bible.js/issues"
-  },
-  "homepage": "https://github.com/BibleJS/bible.js",
-  "directories": {
-    "test": "test"
-  },
-  "devDependencies": {}
+    "name": "bible.js",
+    "version": "0.1.6",
+    "description": "The Bible as a NPM module.",
+    "main": "index.js",
+    "scripts": {
+        "test": "node test/english",
+        "preinstall": "installation/preinstall.sh"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/BibleJS/bible.js.git"
+    },
+    "keywords": [
+        "bible",
+        "npm",
+        "nodejs"
+    ],
+    "dependencies": {
+        "mongodb": "*",
+        "request": "*"
+    },
+    "author": "Ionică Bizău <bizauionica@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/BibleJS/bible.js/issues"
+    },
+    "homepage": "https://github.com/BibleJS/bible.js",
+    "directories": {
+        "test": "test"
+    },
+    "devDependencies": {}
 }
