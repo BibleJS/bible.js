@@ -7,6 +7,13 @@ The Bible as a NPM module.
 ```sh
 $ npm install bible.js
 ```
+I build a [`bible.js` based application](https://github.com/BibleJS/BibleApp) that runs in Terminal. If you want to install it, run the following command:
+
+```sh
+$ sudo npm install bible -g
+```
+
+For more information and documentation click [here](https://github.com/BibleJS/BibleApp).
 
 ## Methods
 
