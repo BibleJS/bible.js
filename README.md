@@ -48,7 +48,7 @@ This function gets the verses/chapter represented by `@reference` argument. The 
 #### Example
 
 ```js
-Bible.get("Psalm 1:1-6, function (err, data) {
+Bible.get("Psalm 1:1-6", function (err, data) {
     /* do something */
 });
 ```
