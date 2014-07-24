@@ -32,7 +32,13 @@ const VERSES_FILE_NAME = "verses.json";
 // dependencies
 var Request = require ("request")
   , ReferenceParser = require("bible-reference-parser")
+  , Git = require("git-tools")
+  , Fs = require("fs")
   ;
+
+function getUserHome() {
+    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+}
 
 /*
  *  This function searches returns the objects from an array
@@ -199,7 +205,87 @@ var Bible = function (options) {
             // return the instance
             return self;
         }
-    }
+    };
+
+    /**
+     * init
+     * Inits BibleJS module by downloading versions set in configuration
+     *
+     * @name init
+     * @function
+     * @param {Object} config BibleJS configuration object. It must contain
+     * `versions` field as noted in documentation.
+     * @param {Function} callback The callback function
+     * @return
+     */
+    self.init = function (config, callback) {
+
+        var versions = Object(config.versions)
+          , bibleDirectory = getUserHome() + "/.bible"
+          ;
+
+        // Create ~/.bible directory
+        if (!Fs.existsSync(bibleDirectory)) {
+            return fs.mkdir(path, function(err) {
+                if (err) { return callback(err); }
+                self.init(config, callback);
+            });
+        }
+
+        var complete = 0
+          , howMany = Object.keys(versions).length
+          ;
+
+        if (!howMany) {
+            return callback("No Bible versions are installed");
+        }
+
+        // Install Bible versions
+        for (var mod in versions) {
+            (function (cV, mod) {
+                var versionPath =  bibleDirectory + "/" + mod;
+                if (Fs.existsSync(versionPath)) {
+                    if (++complete === howMany) {
+                        return callback(null, versions);
+                    }
+                }
+
+                // Clone Bible version
+                Git.clone({
+                    repo: cV.source
+                  , dir: versionPath
+                  , depth: 1
+                }, function (err, repository) {
+                    if (err) { return callback(err); }
+
+                    // Set version/branch
+                    repository.exec("checkout", cV.version, function (err, output) {
+                        if (err) { return callback(err); }
+
+                        // Get package.json file
+                        var packageJson = require(versionPath + "/package.json")
+                          , deps = packageJson.dependencies || {}
+                          , packages = []
+                          ;
+
+                        for (var d in deps) {
+                            packages.push(d + "@" + deps[d]);
+                        }
+
+                        // Install version dependencies
+                        Npm.load({prefix: versionPath + "/node_modules"}, function (err) {
+                            if (err) { return callback(err); }
+                            Npm.commands.install(packages, function (err, data) {
+                                if (err) { return callback(err); }
+                                if (++complete !== howMany) { return; }
+                                callback(null, versions);
+                            });
+                        });
+                    });
+                });
+            })(versions[mod], mod);
+        }
+    };
 
     /**
      *  This function gets the verses that match to the regular expression provided
