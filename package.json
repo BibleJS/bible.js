@@ -17,7 +17,8 @@
       , "nodejs"
     ]
   , "dependencies": {
-        "request": "*"
+        "request": "*",
+        "npm": "*"
     }
   , "author": "Ionică Bizău <bizauionica@gmail.com>"
   , "license": "MIT"
