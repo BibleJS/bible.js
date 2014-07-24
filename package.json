@@ -18,7 +18,8 @@
     ]
   , "dependencies": {
         "request": "*",
-        "npm": "*"
+        "npm": "*",
+        "bible-reference-parser": "1.0.0"
     }
   , "author": "Ionică Bizău <bizauionica@gmail.com>"
   , "license": "MIT"
