@@ -93,13 +93,14 @@ var Bible = function (options) {
  */
 Bible.init = function initBible (config, callback) {
 
+    debugger;
     var versions = Object(config.versions)
       , bibleDirectory = getUserHome() + "/.bible"
       ;
 
     // Create ~/.bible directory
     if (!Fs.existsSync(bibleDirectory)) {
-        return fs.mkdir(path, function(err) {
+        return Fs.mkdir(path, function(err) {
             if (err) { return callback(err); }
             initBible(config, callback);
         });
