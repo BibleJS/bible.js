@@ -11,8 +11,17 @@
 var ReferenceParser = require("bible-reference-parser")
   , Git = require("git-tools")
   , Fs = require("fs")
+  , RegexParser = require("regex-parser")
   ;
 
+/**
+ * getUserHome
+ * Returns the path to home directory.
+ *
+ * @name getUserHome
+ * @function
+ * @return {String} Absolute path to user home directory'
+ */
 function getUserHome() {
     return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 }
@@ -21,10 +30,10 @@ function getUserHome() {
 var Bible = function (options) {
 
     var self = this;
-    options = Object (options);
-    options.language = String (options.language).toUpperCase();
+    options = Object(options);
+    options.language = String(options.language || "").toUpperCase();
 
-    // language not found
+    // Language not found
     if (Bible.languages.indexOf(options.language) === -1) {
         throw new Error ("Language not found. Choose one of the following languages: " + LANGUAGES.join(", "));
     } else {
@@ -45,8 +54,7 @@ var Bible = function (options) {
      *
      */
     self.get = function (reference, callback) {
-
-
+        // TODO
     };
 
     /**
@@ -59,29 +67,15 @@ var Bible = function (options) {
      */
     self.search = function (query, callback) {
 
-        // validate
         if (query && query.constructor === String) {
-            query = new RegExp (query);
+            query = new RegexParser.parse(query);
         }
 
         if (!query || query.constructor !== RegExp) {
-            throw new Error ("query must be a regular expression or a string");
+            return callback("query must be a regular expression or a string");
         }
 
-        // serach in JSON files
-        if (self._json && !self._useRequest) {
-
-            // build the query
-            var query = {
-                text: query
-            };
-
-            // send the response
-            callback (null, findQuery (self._verses[self._language], query));
-
-            // return the instance
-            return self;
-        }
+        // TODO
     }
 };
 
