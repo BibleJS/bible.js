@@ -18,8 +18,7 @@
   , "dependencies": {
         "request": "*",
         "git-tools": "0.1.1",
-        "regex-parser": "0.2.0",
-        "npm": "*"
+        "regex-parser": "0.2.0"
     }
   , "author": "Ionică Bizău <bizauionica@gmail.com>"
   , "license": "MIT"
