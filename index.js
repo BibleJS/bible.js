@@ -100,7 +100,7 @@ Bible.init = function initBible (config, callback) {
 
     // Create ~/.bible directory
     if (!Fs.existsSync(bibleDirectory)) {
-        return Fs.mkdir(path, function(err) {
+        return Fs.mkdir(bibleDirectory, function(err) {
             if (err) { return callback(err); }
             initBible(config, callback);
         });
