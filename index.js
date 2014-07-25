@@ -12,6 +12,7 @@ var ReferenceParser = require("bible-reference-parser")
   , Git = require("git-tools")
   , Fs = require("fs")
   , RegexParser = require("regex-parser")
+  , Npm = require("npm")
   ;
 
 /**
