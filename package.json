@@ -17,6 +17,7 @@
     ]
   , "dependencies": {
         "request": "*",
+        "git-tools": "0.1.1",
         "npm": "*"
     }
   , "author": "Ionică Bizău <bizauionica@gmail.com>"
