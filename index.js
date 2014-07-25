@@ -13,6 +13,7 @@ var ReferenceParser = require("bible-reference-parser")
   , Fs = require("fs")
   , RegexParser = require("regex-parser")
   , Npm = require("npm")
+  , exec = require("child_process").exec
   ;
 
 /**
@@ -137,24 +138,12 @@ Bible.init = function initBible (config, callback) {
                 repository.exec("checkout", cV.version, function (err, output) {
                     if (err) { return callback(err); }
 
-                    // Get package.json file
-                    var packageJson = require(versionPath + "/package.json")
-                      , deps = packageJson.dependencies || {}
-                      , packages = []
-                      ;
-
-                    for (var d in deps) {
-                        packages.push(d + "@" + deps[d]);
-                    }
-
-                    // Install version dependencies
-                    Npm.load({prefix: versionPath + "/node_modules"}, function (err) {
+                    exec("npm install", {
+                        cwd: versionPath
+                    }, function (err) {
                         if (err) { return callback(err); }
-                        Npm.commands.install(packages, function (err, data) {
-                            if (err) { return callback(err); }
-                            if (++complete !== howMany) { return; }
-                            callback(null, versions);
-                        });
+                        if (++complete !== howMany) { return; }
+                        callback(null, versions);
                     });
                 });
             });
