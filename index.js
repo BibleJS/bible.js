@@ -7,13 +7,8 @@
  *
  * */
 
-// constants
-const LANGUAGES = ["RO", "EN"];
-const VERSES_FILE_NAME = "verses.json";
-
-// dependencies
-var Request = require ("request")
-  , ReferenceParser = require("bible-reference-parser")
+// Dependencies
+var ReferenceParser = require("bible-reference-parser")
   , Git = require("git-tools")
   , Fs = require("fs")
   ;
@@ -22,64 +17,7 @@ function getUserHome() {
     return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 }
 
-/*
- *  This function searches returns the objects from an array
- *  that contains objects
- *
- *  {
- *      site_id: "61",
- *      name: "18"
- *  }
- *
- * */
-function findQuery (array, query) {
-
-    // get the collection
-    var col = array
-      , res = []
-      ;
-
-    // array empty or not valid
-    if (!col || !col.length || col.constructor !== Array) {
-        return res;
-    }
-
-    // start dance
-    itemsToFindForLoop:
-
-    // each item
-    for (var i = 0; i < col.length; ++i) {
-
-        // get current item
-        var cItem = col[i];
-
-        // each filter from query
-        for (var f in query) {
-
-            // get filter value
-            var fValue = query[f];
-
-            if (typeof cItem[f] === "string" && typeof fValue === "string") {
-                // a filter doesn't match to the query
-                if (cItem[f] !== fValue) continue itemsToFindForLoop;
-            } else if (typeof cItem[f] === "string" &&  fValue && fValue.constructor === Array) {
-                // a filter doesn't match to the query
-                if (fValue.indexOf(cItem[f]) === -1) continue itemsToFindForLoop;
-            } else if (typeof cItem[f] === "string" &&  fValue && fValue.constructor === RegExp) {
-                // a filter doesn't match to the query
-                if (!fValue.test(cItem[f])) continue itemsToFindForLoop;
-            }
-        }
-
-        // item matches to the query, push it
-        res.push(cItem);
-    }
-
-    // return array
-    return res;
-}
-
-// constructor
+// Constructor
 var Bible = function (options) {
 
     var self = this;
@@ -87,38 +25,10 @@ var Bible = function (options) {
     options.language = String (options.language).toUpperCase();
 
     // language not found
-    if (LANGUAGES.indexOf(options.language) === -1) {
+    if (Bible.languages.indexOf(options.language) === -1) {
         throw new Error ("Language not found. Choose one of the following languages: " + LANGUAGES.join(", "));
     } else {
         self._language = options.language;
-    }
-
-    // database configuration
-    if (options.dbConfig && !options.jsonFiles) {
-        throw new Error ("Not yet implemented");
-    } else {
-
-        // use json files
-        self._json = options.jsonFiles = true;
-
-        // create the verse object
-        self._verses = {};
-
-        try {
-            // require the json files
-            self._verses[options.language] = require ("./bibles/" + options.language + "/" + VERSES_FILE_NAME);
-        } catch (e) {
-            self._useRequest = true;
-            // TODO
-            var providers = {
-                "EN": [
-                    "http://libbible.com/api/query.php?type=verse&br="
-                  , "http://labs.bible.org/api/?type=json&passage="
-                ]
-            };
-            // TODO
-            self._provider = providers[self._language][1];
-        }
     }
 
     /**
@@ -136,52 +46,7 @@ var Bible = function (options) {
      */
     self.get = function (reference, callback) {
 
-        var parsed = ReferenceParser(reference);
-        if (!parsed) { return callback ("Cannot parse the input."); }
 
-        // serach in JSON files
-        if (self._json && !self._useRequest) {
-
-            // build the query
-            var query = {
-                bookname:   parsed.book
-              , chapter:    parsed.chapter
-              , verse:      parsed.verses
-            };
-
-            // "ALL" is special
-            if (query.verse === "ALL") {
-                delete query.verse;
-            }
-
-            // send the response
-            callback (null, findQuery (self._verses[self._language], query));
-
-            // return the instance
-            return self;
-        }
-
-        // use request
-        if (self._json && self._useRequest) {
-
-            // run request
-            Request.get({
-                json: true
-              , url: self._provider + reference
-            }, function (err, response, body) {
-
-                // handle error
-                if (err || response.statusCode !== 200) {
-                    return callback (err || response.message);
-                }
-
-                // callback response
-                callback (null, body);
-            });
-
-            // return the instance
-            return self;
-        }
     };
 
     /**
