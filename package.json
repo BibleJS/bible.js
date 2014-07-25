@@ -5,7 +5,6 @@
   , "main": "index.js"
   , "scripts": {
         "test": "node test/english"
-      , "preinstall": "installation/preinstall.sh"
     }
   , "repository": {
         "type": "git"
@@ -18,8 +17,7 @@
     ]
   , "dependencies": {
         "request": "*",
-        "npm": "*",
-        "bible-reference-parser": "1.0.0"
+        "npm": "*"
     }
   , "author": "Ionică Bizău <bizauionica@gmail.com>"
   , "license": "MIT"
