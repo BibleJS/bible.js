@@ -12,8 +12,7 @@ var ReferenceParser = require("bible-reference-parser")
   , Git = require("git-tools")
   , Fs = require("fs")
   , RegexParser = require("regex-parser")
-  , Npm = require("npm")
-  , exec = require("child_process").exec
+  , Exec = require("child_process").exec
   ;
 
 /**
@@ -138,7 +137,7 @@ Bible.init = function initBible (config, callback) {
                 repository.exec("checkout", cV.version, function (err, output) {
                     if (err) { return callback(err); }
 
-                    exec("npm install", {
+                    Exec("npm install", {
                         cwd: versionPath
                     }, function (err) {
                         if (err) { return callback(err); }
