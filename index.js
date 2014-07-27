@@ -47,17 +47,18 @@ var Bible = function (options) {
     self._submod = require(_submod.path);
 
     /**
-     *  This function gets a verse/chapter etc providing the @reference
+     * get
+     * This function gets a verse/chapter etc providing the `reference`
      *
-     *  Arguments
-     *    @reference: a string in the following formats:
-     *      e.g. Genesis 1:1    - returns one verse
-     *        or Genesis 1:1,2  - returns two verses (1 and 2)
-     *        or Genesis 1:1-10 - returns the verses 1 - 10
-     *        or Genesis 1      - returns the whole chapter
-     *
-     *    @callback: the callback function
-     *
+     * @name get
+     * @function
+     * @param {String} reference The verse reference. It can be in the following formats:
+     *  e.g. Genesis 1:1    - returns one verse
+     *    or Genesis 1:1,2  - returns two verses (1 and 2)
+     *    or Genesis 1:1-10 - returns the verses 1 - 10
+     *    or Genesis 1      - returns the whole chapter
+     * @param {Function} callback The callback function
+     * @return {Bible} The Bible instance (self)
      */
     self.get = function (reference, callback) {
 
@@ -95,12 +96,16 @@ var Bible = function (options) {
     };
 
     /**
-     *  This function gets the verses that match to the regular expression provided
+     * search
+     * This function gets the verses that match to the regular expression
+     * provided.
      *
-     *  Arguments
-     *    @reference: a string or regular expression
-     *    @callback: the callback function
-     *
+     * @name search
+     * @function
+     * @param {String|RegExp} query The string/regular expression that matches
+     * the searched verses.
+     * @param {Function} callback The callback function
+     * @return {Bible} The Bible instance (self)
      */
     self.search = function (query, callback) {
 
