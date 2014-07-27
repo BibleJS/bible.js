@@ -13,6 +13,7 @@ var ReferenceParser = require("bible-reference-parser")
   , Fs = require("fs")
   , RegexParser = require("regex-parser")
   , Exec = require("child_process").exec
+  , LevenshteinArray = require("levenshtein-array")
   ;
 
 /**
@@ -59,22 +60,38 @@ var Bible = function (options) {
      *
      */
     self.get = function (reference, callback) {
-        debugger;
-        if (typeof self._submod.getBooks === "function") {
-            self._submod.getBooks.call(self, function (err, books) {
-                if (err) { return callback(err); }
-                debugger;
 
+        // Parse reference and init request
+        var parsedReference = ReferenceParser(reference)
+          , request = {
+                instance: self
+              , reference: reference
+              , pReference: parsedReference
+            }
+          ;
+
+        function getVerse() {
+            self._submod.getVerse.call(
+                request
+              , request.parsedReference
+              , callback
+            );
+        }
+
+        // Compute book using Levenshtein distance
+        if (typeof self._submod.getBooks === "function") {
+            self._submod.getBooks.call(request, function (err, books) {
+                if (err) { return callback(err); }
+                request.pReference.book = LevenshteinArray(
+                    books, request.pReference.book
+                )[0].w;
+                getVerse();
             });
             return self;
         }
 
-        if (typeof self._submod.getVerse === "function") {
-            self._submod.getVerse.call(self, reference, function (err, data) {
-                if (err) { return callback(err); }
-                debugger;
-            });
-        }
+        getVerse();
+        return self;
     };
 
     /**
