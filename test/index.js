@@ -12,7 +12,7 @@ Bible.init({
         ro: {
             source: "https://github.com/BibleJS/bible-romanian"
           , version: "master"
-          , language: "en"
+          , language: "ro"
         }
     }
 }, function (err) {
