@@ -73,7 +73,7 @@ var Bible = function (options) {
         function getVerse() {
             self._submod.getVerse.call(
                 request
-              , request.parsedReference
+              , request.pReference
               , callback
             );
         }
@@ -104,7 +104,6 @@ var Bible = function (options) {
      */
     self.search = function (query, callback) {
 
-        debugger;
         if (query && query.constructor === String) {
             query = new RegexParser.parse(query);
         }
@@ -113,7 +112,18 @@ var Bible = function (options) {
             return callback("query must be a regular expression or a string");
         }
 
-        // TODO
+        var request = {
+            instance: self
+          , query: query
+        };
+
+        if (typeof self._submod.search === "function") {
+            self._submod.search.call(request, query, callback);
+        } else {
+            callback("Module don't support search method");
+        }
+
+        return self;
     }
 };
 
