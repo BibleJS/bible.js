@@ -32,14 +32,18 @@ var Bible = function (options) {
 
     var self = this;
     options = Object(options);
-    options.language = String(options.language || "").toUpperCase();
+    options.language = String(options.language || "").toLowerCase();
 
     // Language not found
-    if (Bible.languages.indexOf(options.language) === -1) {
-        throw new Error ("Language not found. Choose one of the following languages: " + LANGUAGES.join(", "));
+    debugger;
+    var _submod = Bible.languages[options.language];
+    if (typeof _submod !== "object") {
+        throw new Error ("Language not found. Use configuration object to define a Bible version");
     } else {
         self._language = options.language;
     }
+
+    self._submod = require(_submod.path);
 
     /**
      *  This function gets a verse/chapter etc providing the @reference
@@ -55,7 +59,21 @@ var Bible = function (options) {
      *
      */
     self.get = function (reference, callback) {
-        // TODO
+        debugger;
+        if (typeof self._submod.getBooks === "function") {
+            self._submod.getBooks(function (err, books) {
+                if (err) { return callback(err); }
+                debugger;
+            });
+            return self;
+        }
+
+        if (typeof self._submod.getVerse === "function") {
+            self._submod.getVerse(reference, function (err, data) {
+                if (err) { return callback(err); }
+                debugger;
+            });
+        }
     };
 
     /**
@@ -68,6 +86,7 @@ var Bible = function (options) {
      */
     self.search = function (query, callback) {
 
+        debugger;
         if (query && query.constructor === String) {
             query = new RegexParser.parse(query);
         }
@@ -94,7 +113,6 @@ var Bible = function (options) {
  */
 Bible.init = function initBible (config, callback) {
 
-    debugger;
     var versions = Object(config.versions)
       , bibleDirectory = getUserHome() + "/.bible"
       ;
@@ -106,6 +124,8 @@ Bible.init = function initBible (config, callback) {
             initBible(config, callback);
         });
     }
+
+    Bible.languages = {};
 
     var complete = 0
       , howMany = Object.keys(versions).length
@@ -119,10 +139,15 @@ Bible.init = function initBible (config, callback) {
     for (var mod in versions) {
         (function (cV, mod) {
             var versionPath =  bibleDirectory + "/" + mod;
+            Bible.languages[cV.language] = {
+                version: cV
+              , path: versionPath
+            };
             if (Fs.existsSync(versionPath)) {
                 if (++complete === howMany) {
                     return callback(null, versions);
                 }
+                return;
             }
 
             // Clone Bible version
