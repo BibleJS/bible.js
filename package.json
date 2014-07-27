@@ -1,35 +1,34 @@
 {
-    "name": "bible.js"
-  , "version": "0.1.7"
-  , "description": "The Bible as a NPM module."
-  , "main": "index.js"
-  , "scripts": {
-        "test": "node test/english"
-    }
-  , "repository": {
-        "type": "git"
-      , "url": "git://github.com/BibleJS/bible.js.git"
-    }
-  , "keywords": [
-        "bible"
-      , "npm"
-      , "nodejs"
-    ]
-  , "dependencies": {
-        "request": "*",
-        "git-tools": "0.1.1",
-        "regex-parser": "0.2.0",
-        "bible-reference-parser": "1.0.0",
-        "levenshtein-array": "1.0.0"
-    }
-  , "author": "Ionică Bizău <bizauionica@gmail.com>"
-  , "license": "MIT"
-  , "bugs": {
-        "url": "https://github.com/BibleJS/bible.js/issues"
-    }
-  , "homepage": "https://github.com/BibleJS/bible.js"
-  , "directories": {
-        "test": "test"
-    }
-  , "devDependencies": {}
+  "name": "bible.js",
+  "version": "1.0.0",
+  "description": "The Bible as a NPM module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/english"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/BibleJS/bible.js.git"
+  },
+  "keywords": [
+    "bible",
+    "npm",
+    "nodejs"
+  ],
+  "dependencies": {
+    "git-tools": "0.1.1",
+    "regex-parser": "0.2.0",
+    "bible-reference-parser": "1.0.0",
+    "levenshtein-array": "1.0.0"
+  },
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BibleJS/bible.js/issues"
+  },
+  "homepage": "https://github.com/BibleJS/bible.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {}
 }
