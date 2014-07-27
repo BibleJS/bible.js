@@ -61,15 +61,16 @@ var Bible = function (options) {
     self.get = function (reference, callback) {
         debugger;
         if (typeof self._submod.getBooks === "function") {
-            self._submod.getBooks(function (err, books) {
+            self._submod.getBooks.call(self, function (err, books) {
                 if (err) { return callback(err); }
                 debugger;
+
             });
             return self;
         }
 
         if (typeof self._submod.getVerse === "function") {
-            self._submod.getVerse(reference, function (err, data) {
+            self._submod.getVerse.call(self, reference, function (err, data) {
                 if (err) { return callback(err); }
                 debugger;
             });
