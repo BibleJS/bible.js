@@ -48,5 +48,5 @@ Bible.init({
 
     // Get verses
     enBible.get(references.en, responseHandler("en"));
-    roBible.get(reference.ro, responseHandler("ro"));
+    roBible.get(references.ro, responseHandler("ro"));
 });
