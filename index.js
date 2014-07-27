@@ -142,7 +142,7 @@ var Bible = function (options) {
  * @param {Object} config BibleJS configuration object. It must contain
  * `versions` field as noted in documentation.
  * @param {Function} callback The callback function
- * @return
+ * @return {Bible} Bible constructor
  */
 Bible.init = function initBible (config, callback) {
 
@@ -152,10 +152,11 @@ Bible.init = function initBible (config, callback) {
 
     // Create ~/.bible directory
     if (!Fs.existsSync(bibleDirectory)) {
-        return Fs.mkdir(bibleDirectory, function(err) {
+        Fs.mkdir(bibleDirectory, function(err) {
             if (err) { return callback(err); }
             initBible(config, callback);
         });
+        return Bible;
     }
 
     Bible.languages = {};
@@ -165,7 +166,8 @@ Bible.init = function initBible (config, callback) {
       ;
 
     if (!howMany) {
-        return callback("No Bible versions are installed");
+        callback("No Bible versions are installed");
+        return Bible;
     }
 
     // Install Bible versions
@@ -206,6 +208,8 @@ Bible.init = function initBible (config, callback) {
             });
         })(versions[mod], mod);
     }
+
+    return Bible;
 };
 
 // export it
