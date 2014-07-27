@@ -30,7 +30,9 @@ Bible.init({
                 if (err) { throw err; }
 
                 // Output
-                console.log(references[lang]);
+                if (lang) {
+                    console.log(references[lang]);
+                }
                 console.log("-------------");
 
                 if (data && data.length) {
@@ -49,4 +51,7 @@ Bible.init({
     // Get verses
     enBible.get(references.en, responseHandler("en"));
     roBible.get(references.ro, responseHandler("ro"));
+
+    // Search
+    roBible.search("/meroza/gi", responseHandler());
 });
