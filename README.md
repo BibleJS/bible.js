@@ -160,6 +160,9 @@ Psalm 1:1-6
 
 # Changelog
 
+## `1.0.3`
+ - Fixed search feature
+
 ## `1.0.2`
  - Updated `regex-parser` depdendency
 
