@@ -160,7 +160,7 @@ Psalm 1:1-6
 
 # Changelog
 
-## `1.0.1`
+## `1.0.2`
  - Updated `regex-parser` depdendency
 
 ## `1.0.0`
