@@ -109,7 +109,7 @@ var Bible = function (options) {
     self.search = function (query, callback) {
 
         if (query && query.constructor === String) {
-            query = new RegexParser.parse(query);
+            query = new RegexParser(query);
         }
 
         if (!query || query.constructor !== RegExp) {
