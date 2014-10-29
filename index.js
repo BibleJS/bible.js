@@ -36,7 +36,6 @@ var Bible = function (options) {
     options.language = String(options.language || "").toLowerCase();
 
     // Language not found
-    debugger;
     var _submod = Bible.languages[options.language];
     if (typeof _submod !== "object") {
         throw new Error ("Language not found. Use configuration object to define a Bible version");
