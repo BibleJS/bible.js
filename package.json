@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "git-tools": "0.1.1",
-    "regex-parser": "0.2.0",
+    "regex-parser": "1.0.0",
     "bible-reference-parser": "1.0.0",
     "levenshtein-array": "1.0.0"
   },
