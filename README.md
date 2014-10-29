@@ -163,6 +163,9 @@ Psalm 1:1-6
 ## `1.0.2`
  - Updated `regex-parser` depdendency
 
+## `1.0.1`
+ - Minor changes
+
 ## `1.0.0`
  - First stable release with a lot of improvements
  - Support custom language submodules (everyone can build one) via `git` and `npm`
