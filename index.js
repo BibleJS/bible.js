@@ -6,6 +6,7 @@ var ReferenceParser = require("bible-reference-parser")
   , Exec = require("child_process").exec
   , LevenshteinArray = require("levenshtein-array")
   , Ul = require("ul")
+  , CallbackBuffer = require("cb-buffer")
   ;
 
 // Constructor
@@ -23,7 +24,11 @@ var Bible = function (options) {
         self._language = options.language;
     }
 
+    // Require the submodule
     self._submod = require(_submod.path);
+
+    // Cache the responses
+    self.cache = {};
 
     /**
      * get
@@ -41,6 +46,16 @@ var Bible = function (options) {
      */
     self.get = function (reference, callback) {
 
+        var cBuffer = self.cache[reference];
+        if (cBuffer) {
+            if (cBuffer.isDone) {
+                cBuffer.done(callback);
+            }
+            cBuffer.add(callback);
+            return self;
+        }
+
+
         // Parse reference and init request
         var parsedReference = ReferenceParser(reference)
           , request = {
@@ -50,11 +65,17 @@ var Bible = function (options) {
             }
           ;
 
+        cBuffer = self.cache[reference] = new CallbackBuffer();
+        cBuffer.add(callback);
+        cBuffer.wait();
+
         function getVerse() {
             self._submod.getVerse.call(
                 request
               , request.pReference
-              , callback
+              , function (err, verses) {
+                    cBuffer.callback(err, verses)
+                }
             );
         }
 

@@ -51,6 +51,12 @@ Bible.init({
     // Get verses
     enBible.get(references.en, responseHandler("en"));
     roBible.get(references.ro, responseHandler("ro"));
+    enBible.get(references.en, responseHandler("en"));
+
+    setTimeout(function() {
+        enBible.get(references.en, responseHandler("en"));
+    }, 1000);
+
 
     // Search
     roBible.search("/meroza/gi", responseHandler());

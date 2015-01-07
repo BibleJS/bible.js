@@ -20,6 +20,7 @@
     "regex-parser": "1.0.0",
     "bible-reference-parser": "1.0.0",
     "levenshtein-array": "1.0.0",
+    "cb-buffer": "1.0.2",
     "ul": "*"
   },
   "author": "Ionică Bizău <bizauionica@gmail.com>",
