@@ -32,20 +32,25 @@ var Bible = function (options) {
 
     /**
      * get
-     * This function gets a verse/chapter etc providing the `reference`
+     * This function gets the response providing the Bible `reference`.
      *
      * @name get
      * @function
      * @param {String} reference The verse reference. It can be in the following formats:
+     *
+     *  ```
      *  e.g. Genesis 1:1    - returns one verse
      *    or Genesis 1:1,2  - returns two verses (1 and 2)
      *    or Genesis 1:1-10 - returns the verses 1 - 10
      *    or Genesis 1      - returns the whole chapter
-     * @param {Function} callback The callback function
-     * @return {Bible} The Bible instance (self)
+     *  ```
+     *
+     * @param {Function} callback The callback function.
+     * @return {Bible} The Bible instance (self).
      */
     self.get = function (reference, callback) {
 
+        // Handle callback buffering
         var cBuffer = self.cache[reference];
         if (cBuffer) {
             if (cBuffer.isDone) {
@@ -65,6 +70,7 @@ var Bible = function (options) {
             }
           ;
 
+        // Cache the buffer
         cBuffer = self.cache[reference] = new CallbackBuffer();
         cBuffer.add(callback);
         cBuffer.wait();
@@ -74,10 +80,10 @@ var Bible = function (options) {
                 request
               , request.pReference
               , function (err, verses) {
-                    for (var i =0; i < verses.length; ++i) {
+                    for (var i = 0; i < verses.length; ++i) {
                         verses[i].text = verses[i].text.replace(/<\/?[^>]+(>|$)/g, "");
                     }
-                    cBuffer.callback(err, verses)
+                    cBuffer.callback(err, verses);
                 }
             );
         }
@@ -132,20 +138,26 @@ var Bible = function (options) {
         }
 
         return self;
-    }
+    };
 };
 
 /**
  * init
- * Inits BibleJS module by downloading versions set in configuration
- * This method should be called when the application is started.
+ * Inits BibleJS submodules by downloading them as set in the `config` object
+ * This method should be called before initializing the Bible instance.
  *
  * @name init
  * @function
- * @param {Object} config BibleJS configuration object. It must contain
- * `versions` field as noted in documentation.
- * @param {Function} callback The callback function
- * @return {Bible} Bible constructor
+ * @param {Object} config The configuration object containing the following field:
+ *
+ *  - `versions` (Object)
+ *    - `<version_name>` (Object)
+ *      - `source` (String): The git url of the BibleJS submodule.
+ *      - `version` (String): The git tag or branch of the submodule.
+ *      - `language` (String): The submodule language.
+ *
+ * @param {Function} callback The callback function.
+ * @return {Bible} The Bible constructor.
  */
 Bible.init = function initBible (config, callback) {
 
@@ -173,43 +185,47 @@ Bible.init = function initBible (config, callback) {
         return Bible;
     }
 
-    // Install Bible versions
-    for (var mod in versions) {
-        (function (cV, mod) {
-            var versionPath =  bibleDirectory + "/" + mod;
-            Bible.languages[cV.language] = {
-                version: cV
-              , path: versionPath
-            };
-            if (Fs.existsSync(versionPath)) {
-                if (++complete === howMany) {
-                    return callback(null, versions);
-                }
-                return;
-            }
+    function install(cv, mod) {
+        var versionPath =  bibleDirectory + "/" + mod;
 
-            // Clone Bible version
-            Git.clone({
-                repo: cV.source
-              , dir: versionPath
-              , depth: 1
-            }, function (err, repository) {
+        Bible.languages[cV.language] = {
+            version: cV
+          , path: versionPath
+        };
+
+        if (Fs.existsSync(versionPath)) {
+            if (++complete === howMany) {
+                return callback(null, versions);
+            }
+            return;
+        }
+
+        // Clone Bible version
+        Git.clone({
+            repo: cV.source
+          , dir: versionPath
+          , depth: 1
+        }, function (err, repository) {
+            if (err) { return callback(err); }
+
+            // Set version/branch
+            repository.exec("checkout", cV.version, function (err, output) {
                 if (err) { return callback(err); }
 
-                // Set version/branch
-                repository.exec("checkout", cV.version, function (err, output) {
+                Exec("npm install", {
+                    cwd: versionPath
+                }, function (err) {
                     if (err) { return callback(err); }
-
-                    Exec("npm install", {
-                        cwd: versionPath
-                    }, function (err) {
-                        if (err) { return callback(err); }
-                        if (++complete !== howMany) { return; }
-                        callback(null, versions);
-                    });
+                    if (++complete !== howMany) { return; }
+                    callback(null, versions);
                 });
             });
-        })(versions[mod], mod);
+        });
+    }
+
+    // Install Bible versions
+    for (var mod in versions) {
+        install(versions[mod], mod);
     }
 
     return Bible;
