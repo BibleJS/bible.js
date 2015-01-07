@@ -1,6 +1,6 @@
 {
   "name": "bible.js",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "The Bible as a NPM module.",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "nodejs"
   ],
   "dependencies": {
-    "git-tools": "0.1.1",
+    "git-tools": "0.1.2",
     "regex-parser": "1.0.0",
     "bible-reference-parser": "1.0.0",
     "levenshtein-array": "1.0.0",
