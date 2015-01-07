@@ -1,5 +1,5 @@
 // Dependencies
-var Bible = require("../index");
+var Bible = require("../lib");
 
 // Init Bible
 Bible.init({
