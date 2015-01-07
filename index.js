@@ -74,6 +74,9 @@ var Bible = function (options) {
                 request
               , request.pReference
               , function (err, verses) {
+                    for (var i =0; i < verses.length; ++i) {
+                        verses[i].text = verses[i].text.replace(/<\/?[^>]+(>|$)/g, "");
+                    }
                     cBuffer.callback(err, verses)
                 }
             );
