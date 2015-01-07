@@ -51,7 +51,7 @@ This function gets the response providing the BibleJS `reference`.
 ### Params
 - **String** `reference`: The verse reference. It can be in the following formats:
  ```
- e.g. Genesis 1:1    - returns one verse
+ e.g. Genesis 1:1  - returns one verse
  or Genesis 1:1,2  - returns two verses (1 and 2)
  or Genesis 1:1-10 - returns the verses 1 - 10
  or Genesis 1      - returns the whole chapter
