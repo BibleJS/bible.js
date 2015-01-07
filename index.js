@@ -1,12 +1,3 @@
-/**
- *  BibleJS
- *  Access the Bible contents from JavaScript side.
- *
- *  </> with <3 by Ionică Bizău
- *  Licensed under the MIT license.
- *
- * */
-
 // Dependencies
 var ReferenceParser = require("bible-reference-parser")
   , Git = require("git-tools")
@@ -14,19 +5,8 @@ var ReferenceParser = require("bible-reference-parser")
   , RegexParser = require("regex-parser")
   , Exec = require("child_process").exec
   , LevenshteinArray = require("levenshtein-array")
+  , Ul = require("ul")
   ;
-
-/**
- * getUserHome
- * Returns the path to home directory.
- *
- * @name getUserHome
- * @function
- * @return {String} Absolute path to user home directory'
- */
-function getUserHome() {
-    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
-}
 
 // Constructor
 var Bible = function (options) {
@@ -146,7 +126,7 @@ var Bible = function (options) {
 Bible.init = function initBible (config, callback) {
 
     var versions = Object(config.versions)
-      , bibleDirectory = getUserHome() + "/.bible"
+      , bibleDirectory = Ul.USER_DIR + "/.bible"
       ;
 
     // Create ~/.bible directory

@@ -19,7 +19,8 @@
     "git-tools": "0.1.1",
     "regex-parser": "1.0.0",
     "bible-reference-parser": "1.0.0",
-    "levenshtein-array": "1.0.0"
+    "levenshtein-array": "1.0.0",
+    "ul": "*"
   },
   "author": "Ionică Bizău <bizauionica@gmail.com>",
   "license": "MIT",
