@@ -23,11 +23,11 @@ This method should be called before initializing the BibleJS instance.
 
 ### Params
  - **config** `Object`: The configuration object containing the following field:
-   - `versions` (Object)
-     - `<version_name>` (Object)
-       - `source` (String): The git url of the BibleJS submodule.
-       - `version` (String): The git tag or branch of the submodule.
-       - `language` (String): The submodule language.
+    - `versions` (Object)
+       - `<version_name>` (Object)
+          - `source` (String): The git url of the BibleJS submodule.
+          - `version` (String): The git tag or branch of the submodule.
+          - `language` (String): The submodule language.
 
  - **callback** `Function` The callback function.
 
@@ -52,9 +52,9 @@ This function gets the response providing the BibleJS `reference`.
 - **String** `reference`: The verse reference. It can be in the following formats:
  ```
  e.g. Genesis 1:1    - returns one verse
-   or Genesis 1:1,2  - returns two verses (1 and 2)
-   or Genesis 1:1-10 - returns the verses 1 - 10
-   or Genesis 1      - returns the whole chapter
+ or Genesis 1:1,2  - returns two verses (1 and 2)
+ or Genesis 1:1-10 - returns the verses 1 - 10
+ or Genesis 1      - returns the whole chapter
  ```
 
 - **Function** `callback`: The callback function.
