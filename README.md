@@ -1,4 +1,4 @@
-Bible.js
+Bible.JS
 ========
 The Bible as a NPM module.
 
@@ -7,66 +7,76 @@ The Bible as a NPM module.
 $ npm install bible.js
 ```
 
-I build a [`bible.js` client](https://github.com/BibleJS/BibleApp) that runs in the command line. If you want to install it, run the following command:
+I built a [command line `bible.js` client](https://github.com/BibleJS/BibleApp).
+If you want to install it, run the following command:
 
 ```sh
 $ sudo npm install bible -g
 ```
 
-For more information and documentation click [here](https://github.com/BibleJS/BibleApp).
+For more [information and documentation click here](https://github.com/BibleJS/BibleApp).
 
 # Documentation
+## `BibleJS.init(config, callback)`
+Inits BibleJS submodules by downloading them as set in the `config` object
+This method should be called before initializing the BibleJS instance.
+
+### Params
+ - **config** `Object`: The configuration object containing the following field:
+   - `versions` (Object)
+     - `<version_name>` (Object)
+       - `source` (String): The git url of the BibleJS submodule.
+       - `version` (String): The git tag or branch of the submodule.
+       - `language` (String): The submodule language.
+
+ - **callback** `Function` The callback function.
+
+### Return
+ - **BibleJS** The `BibleJS` constructor.
+
 ## `new Bible(options)`
 Creates a new `Bible` instance.
 
 ### Params
 * **Object** *options* An object containing the following fields:
 
- - `language`: the langauge of the Bible instance
+ - `language`: the langauge of the BibleJS instance
 
-## `myBible.get(reference, callback)`
-This function gets a verse/chapter etc providing the `reference`
+### Return
+ - **BibleJS** The `BibleJS` constructor.
 
-### Params:
-* **String** *reference* The verse reference. It can be in the following formats:
+## `get(reference, callback)`
+This function gets the response providing the BibleJS `reference`.
 
-  - Genesis 1:1    - returns one verse
-  - Genesis 1:1,2  - returns two verses (1 and 2)
-  - Genesis 1:1-10 - returns the verses 1 - 10
-  - Genesis 1      - returns the whole chapter
+### Params
+- **String** `reference`: The verse reference. It can be in the following formats:
+ ```
+ e.g. Genesis 1:1    - returns one verse
+   or Genesis 1:1,2  - returns two verses (1 and 2)
+   or Genesis 1:1-10 - returns the verses 1 - 10
+   or Genesis 1      - returns the whole chapter
+ ```
 
-* **Function** *callback* The callback function
+- **Function** `callback`: The callback function.
 
-### Return:
-* **Bible** The Bible instance (self)
+### Return
+- **BibleJS** The `BibleJS` instance (self).
 
 ## `search(query, callback)`
 This function gets the verses that match to the regular expression
 provided.
 
-### Params:
-* **String|RegExp** *query* The string/regular expression that matches the searched verses.
-* **Function** *callback* The callback function
+### Params
+- **String|RegExp** `query`: The string/regular expression that matches the searched verses.
+- **Function** `callback`: The callback function
 
-### Return:
-* **Bible** The Bible instance (self)
-
-## `init(config, callback)`
-Inits BibleJS module by downloading versions set in configuration
-This method should be called when the application is started. See the example.
-
-### Params:
-* **Object** *config* BibleJS configuration object. It must contain `versions` field as noted in documentation.
-* **Function** *callback* The callback function
-
-### Return:
-* **Bible** Bible constructor
-
+### Return
+- **BibleJS** The `BibleJS` instance (self)
 
 # Example
 ```js
 // Dependencies
-var Bible = require("../index");
+var BibleJS = require("bible.js");
 
 // Init Bible
 Bible.init({
@@ -85,7 +95,7 @@ Bible.init({
 }, function (err) {
     if (err) { throw err; }
 
-    // Create Bible instances
+    // Create BibleJS instances
     var enBible = new Bible({ language: "en" })
       , roBible = new Bible({ language: "ro" })
       , references = {
@@ -124,7 +134,7 @@ Bible.init({
 });
 ```
 
-## Testing
+# Testing
 
 ```sh
 $ npm test
@@ -134,4 +144,4 @@ $ npm test
 See the [releases page](https://github.com/BibleJS/bible.js/releases).
 
 # License
-See LICENSE file.
+See the [LICENSE](/LICENSE) file.
