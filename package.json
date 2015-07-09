@@ -16,12 +16,12 @@
     "nodejs"
   ],
   "dependencies": {
-    "git-tools": "0.1.2",
-    "regex-parser": "1.0.0",
-    "bible-reference-parser": "1.0.0",
-    "levenshtein-array": "1.0.0",
+    "bible-reference-parser": "^2.0.0",
     "cb-buffer": "1.0.2",
-    "ul": "*"
+    "git-tools": "^0.1.4",
+    "levenshtein-array": "^2.0.0",
+    "regex-parser": "^2.0.0",
+    "ul": "^5.0.0"
   },
   "author": "Ionică Bizău <bizauionica@gmail.com>",
   "license": "MIT",
