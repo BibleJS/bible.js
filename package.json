@@ -1,6 +1,6 @@
 {
   "name": "bible.js",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "The Bible as a NPM module.",
   "main": "lib/index.js",
   "scripts": {
